@@ -2,6 +2,7 @@ package com.raul.infrastructure.mapper;
 
 import com.raul.core.domain.Product;
 import com.raul.core.domain.Wishlist;
+import com.raul.infrastructure.dto.request.CreateWishlistRequest;
 import com.raul.infrastructure.dto.response.AddProductToWishlistResponse;
 import com.raul.infrastructure.dto.response.CreateWishlistResponse;
 import com.raul.infrastructure.entity.WishlistEntity;
@@ -12,8 +13,8 @@ import java.util.Set;
 @Component
 public class WishlistDtoMapper {
 
-    public static Wishlist createRequestToDomain(String customerId) {
-        return new Wishlist(customerId);
+    public static Wishlist createRequestToDomain(CreateWishlistRequest createWishlistRequest) {
+        return new Wishlist(createWishlistRequest.getCustomerId());
     }
 
     public static Wishlist toDomain(WishlistEntity wishlistEntity) {

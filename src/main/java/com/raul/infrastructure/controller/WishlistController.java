@@ -5,6 +5,7 @@ import com.raul.core.domain.Wishlist;
 import com.raul.core.domain.WishlistFilter;
 import com.raul.core.exception.WishlistRegistredByCustomerIdException;
 import com.raul.infrastructure.dto.request.AddProductToWishlistRequest;
+import com.raul.infrastructure.dto.request.CreateWishlistRequest;
 import com.raul.infrastructure.dto.response.AddProductToWishlistResponse;
 import com.raul.infrastructure.dto.response.CreateWishlistResponse;
 import com.raul.infrastructure.mapper.ProductDtoMapper;
@@ -20,8 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.UUID;
 
 //TODO
@@ -44,11 +43,11 @@ public class WishlistController {
         this.removeProductWishlistUseCase = removeProductWishlistUseCase;
     }
 
-    @PostMapping("/{customerId}")
+    @PostMapping
     public ResponseEntity<CreateWishlistResponse> create(
-            @PathVariable @NotBlank @Size(max = 50) String customerId) throws WishlistRegistredByCustomerIdException {
+            @RequestBody @Valid CreateWishlistRequest createWishlistRequest) throws WishlistRegistredByCustomerIdException {
 
-        Wishlist wishlist = createWishlistUseCase.execute(WishlistDtoMapper.createRequestToDomain(customerId));
+        Wishlist wishlist = createWishlistUseCase.execute(WishlistDtoMapper.createRequestToDomain(createWishlistRequest));
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
